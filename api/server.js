@@ -35,7 +35,11 @@ const sessionConfig = {
 server.use(helmet());
 server.use(express.json());
 server.use(cors());
-server.use(session(sessionConfig))
+server.use(session(sessionConfig));
+
+server.use('/api/auth', authRouter);
+server.use('/api/users', usersRouter);
+
 server.get("/", (req, res) => {
   res.json({ api: "up" });
 });
