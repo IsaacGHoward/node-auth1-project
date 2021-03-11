@@ -28,7 +28,7 @@ function findById(user_id) {
 
 function findByName(username){
   return db('users')
-    .select('user_id', 'username')
+    .select('*')
     .where('username', username)
     .first();
 }
