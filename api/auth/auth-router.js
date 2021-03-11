@@ -88,6 +88,19 @@ router.post('/login', middleware.checkUsernameExists, middleware.checkPasswordLe
     "message": "no session"
   }
  */
+router.get('/logout', (req,res) => {
+  if(req.session.user){
+    req.session.destroy(err => {
+      if(err)
+        res.status(200).json({"message": "no session"})
+      else
+        res.status(200).json({"message": "logged out"})
+    })
+  }
+  else
+    res.status(200).json({"message": "no session"})
+
+})
 
  module.exports = router;
 // Don't forget to add the router to the `exports` object so it can be required in other modules
