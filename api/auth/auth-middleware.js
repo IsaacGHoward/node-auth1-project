@@ -26,9 +26,9 @@ function checkUsernameFree(req,res,next) {
   db.findByName(req.body.username)
     .then(result => {
       if(!result)
-        res.status(422).send({"message": "Username taken"});
-      else
         next()
+      else
+        res.status(422).send({"message": "Username taken"});
     })
 }
 
@@ -40,8 +40,14 @@ function checkUsernameFree(req,res,next) {
     "message": "Invalid credentials"
   }
 */
-function checkUsernameExists() {
-
+function checkUsernameExists(req,res,next) {
+  db.findByName(req.body.username)
+    .then(result => {
+      if(!result)
+        res.status(401).send({"message": "Invalid credentials"});
+      else
+        next()
+    })
 }
 
 /*
@@ -52,12 +58,17 @@ function checkUsernameExists() {
     "message": "Password must be longer than 3 chars"
   }
 */
-function checkPasswordLength() {
-
+function checkPasswordLength(req,res,next) {
+  if(!req.body.password || req.body.password.length < 4)
+    res.status(422).send({"message": "Password must be longer than 3 chars"})
+  else
+    next();
 }
 
 module.exports = {
   restricted,
-
+  checkUsernameFree,
+  checkUsernameExists,
+  checkPasswordLength
 }
 // Don't forget to add these to the `exports` object so they can be required in other modules
