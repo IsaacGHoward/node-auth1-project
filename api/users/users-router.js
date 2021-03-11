@@ -2,6 +2,8 @@
 
 const router = require('express').Router();
 const middleware = require('../auth/auth-middleware');
+
+const Users = require('./users-model');
 /**
   [GET] /api/users
 
@@ -25,7 +27,11 @@ const middleware = require('../auth/auth-middleware');
   }
  */
 router.get('/', middleware.restricted, (req,res) => {
-  res.status(200).send({'message' : "You're In!"});
+  //res.status(200).send({'message' : "You're In!"});
+  Users.find()
+    .then(results => {
+      res.status(401).send(results);
+    })
 });
 module.exports = router;
 // Don't forget to add the router to the `exports` object so it can be required in other modules
