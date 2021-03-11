@@ -28,7 +28,21 @@ const Users = require('../users/users-model');
     "message": "Password must be longer than 3 chars"
   }
  */
+  router.post('/register', middleware.checkUsernameFree, middleware.checkPasswordLength, (req,res) => {
+    let user = req.body;
+    
+    const hash = bcrypt.hashSync(user.password, 12)
 
+    user.password = hash;
+
+    
+    Users.add(user)
+      .then(saved => {
+        console.log(saved);
+        if(saved)
+          res.status(200).send(saved);
+      })
+  })
 
 /**
   2 [POST] /api/auth/login { "username": "sue", "password": "1234" }

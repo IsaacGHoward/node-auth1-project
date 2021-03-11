@@ -40,8 +40,8 @@ function add(user) {
   db('users')
     .insert(user)
     .then(ids => {
-      findById(ids[0])
-      .then((res) => {return res})
+      return findById(ids[0])
+      //.then((res) => {return res})
     });
 }
 
