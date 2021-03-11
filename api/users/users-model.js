@@ -1,15 +1,19 @@
 /**
   resolves to an ARRAY with all users, each user having { user_id, username }
  */
+const db = require('../../data/db-config')
 function find() {
-
+  return db('users')
+    .select('user_id', 'username')
 }
 
 /**
   resolves to an ARRAY with all users that match the filter condition
  */
 function findBy(filter) {
-
+  return db('users')
+    .select('user_id', 'username')
+    .where('username', 'like', `%${filter}%`)
 }
 
 /**
