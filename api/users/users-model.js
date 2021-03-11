@@ -25,6 +25,14 @@ function findById(user_id) {
     .where('user_id', user_id)
 }
 
+
+function findByName(username){
+  return db('users')
+    .select('user_id', 'username')
+    .where('username', username)
+    .first();
+}
+
 /**
   resolves to the newly inserted user { user_id, username }
  */
@@ -41,6 +49,7 @@ module.exports = {
   find,
   findBy,
   findById,
+  findByName,
   add,
 }
 

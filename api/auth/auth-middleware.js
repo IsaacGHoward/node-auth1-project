@@ -6,8 +6,12 @@
     "message": "You shall not pass!"
   }
 */
-function restricted() {
-
+const db = require('../users/users-model');
+function restricted(req,res,next) {
+  if(!req.session || !req.session.user)
+    return res.status(401).json({"message": "You shall not pass!"})
+  else 
+    next()
 }
 
 /*
@@ -18,8 +22,14 @@ function restricted() {
     "message": "Username taken"
   }
 */
-function checkUsernameFree() {
-
+function checkUsernameFree(req,res,next) {
+  db.findByName(req.body.username)
+    .then(result => {
+      if(!result)
+        res.status(422).send({"message": "Username taken"});
+      else
+        next()
+    })
 }
 
 /*
@@ -46,4 +56,8 @@ function checkPasswordLength() {
 
 }
 
+module.exports = {
+  restricted,
+
+}
 // Don't forget to add these to the `exports` object so they can be required in other modules
